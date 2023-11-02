@@ -14,7 +14,7 @@ public class Cache<K, V> implements Cacheable<K, V> {
     public Cache(int maxSize, EvictStrategy evictStrategy) {
         this.maxSize = maxSize;
         this.evictStrategy = evictStrategy;
-        this.storage = new HashMap<>();
+        this.storage = new HashMap<>(maxSize);
     }
 
     private boolean isNeedEvict() {

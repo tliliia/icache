@@ -6,7 +6,10 @@ import com.icache.impl.LRUStrategy;
 import com.icache.impl.MFUStrategy;
 
 public class CacheBuilder<K, V> {
-    private int maxSize;
+    public static final int DEFAULT_MAX_SIZE = 100;
+    public static final EvictStrategyType DEFAULT_EVICT_STRATEGY = EvictStrategyType.LRU;
+
+    private Integer maxSize;
     private EvictStrategyType type;
 
     public static CacheBuilder create() {
@@ -14,6 +17,9 @@ public class CacheBuilder<K, V> {
     }
 
     public CacheBuilder<K, V> maxSize(int maxSize) {
+        if (maxSize <= 0) {
+            throw new IllegalArgumentException("Необходимо задать корректное значение ");
+        }
         this.maxSize = maxSize;
         return this;
     }
@@ -24,6 +30,12 @@ public class CacheBuilder<K, V> {
     }
 
     public Cache<K, V> build() {
+        if (maxSize == null) {
+            maxSize = DEFAULT_MAX_SIZE;
+        }
+        if (type == null) {
+            type = DEFAULT_EVICT_STRATEGY;
+        }
         EvictStrategy strategy = null;
         switch (type) {
             case LFU:

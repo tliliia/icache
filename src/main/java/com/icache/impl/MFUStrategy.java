@@ -7,6 +7,9 @@ import java.util.Map;
 public class MFUStrategy<K> extends FrequencyStrategy<K> {
     @Override
     public K candidateToEvict() {
+        if (frequencyMap.isEmpty()) {
+            return null;
+        }
         Map.Entry<K, Integer> max = Collections.max(frequencyMap.entrySet(),
                 Comparator.comparing(Map.Entry::getValue));
         return max.getKey();

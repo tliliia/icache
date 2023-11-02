@@ -13,6 +13,9 @@ public class LRUStrategy<K> implements EvictStrategy<K> {
 
     @Override
     public K candidateToEvict() {
+        if (frequencyMap.isEmpty()) {
+            return null;
+        }
         Map.Entry<K, Timestamp> min = Collections.min(frequencyMap.entrySet(),
                 Comparator.comparing(Map.Entry::getValue));
         return min.getKey();
